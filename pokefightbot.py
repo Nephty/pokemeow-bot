@@ -127,8 +127,7 @@ def lookForFightStarted():
 
 
 def aPixelIsRed(lst):
-    for pixel in lst:
-        print(pixel)
+    print(lst)
     for pixel in lst:
         if pixel[0] > 150:
             return True
