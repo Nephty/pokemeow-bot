@@ -147,7 +147,7 @@ focusLeftWindow()
 
 while True:
     startFight()
-    t.sleep(1)
+    t.sleep(2)
     sc = pg.screenshot()
     while sc.getpixel(yellow_bar_pos[0]) != yellow_bar or sc.getpixel(yellow_bar_pos[1]) != yellow_bar or sc.getpixel(yellow_bar_pos[2]) != yellow_bar:
         print("no yellow bar")
