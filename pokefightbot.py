@@ -106,12 +106,11 @@ def gotTagged(sc):
 
 def lookForYellowBand():
     looking = True
-    tm = t.time()
     while looking:
-        if (t.time() - tm)*1000 % 100 == 0:
-            sc = pg.screenshot()
-            if sc.getpixel(yellow_bar_pos[0]) == yellow_bar or sc.getpixel(yellow_bar_pos[1]) == yellow_bar or sc.getpixel(yellow_bar_pos[2]) == yellow_bar:
-                looking = False
+        t.sleep(0.1)
+        sc = pg.screenshot()
+        if sc.getpixel(yellow_bar_pos[0]) == yellow_bar or sc.getpixel(yellow_bar_pos[1]) == yellow_bar or sc.getpixel(yellow_bar_pos[2]) == yellow_bar:
+            looking = False
     t.sleep(0.25)
 
 
