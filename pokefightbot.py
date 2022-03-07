@@ -6,6 +6,7 @@ import time as t
 if os.environ['HOSTNAME'] == 'fedora':
     # don't edit anything here it's useless
     main_pokemon_attack = "fire punch"
+    secondary_pokemon_attack = "brutql szing"
     yellow_bar_pos = [(2954, 1270), (2955, 1270), (2956, 1270)]
     end_pos_1 = (3147, 746)
     end_pos_2 = (3147, 766)
@@ -14,7 +15,7 @@ if os.environ['HOSTNAME'] == 'fedora':
     tagged_strip2 = (2883, 1335)
     background_pos = (3305, 1210)
     captcha_pos = (3777, 1233)
-    secondary_pokemon_attack = "brutql szing"
+    top_of_embed = (529, 535)
 elif os.environ['HOSTNAME'] == 'nephty-fedora':
     # don't edit anything here it's useless
     main_pokemon_attack = "fire punch"
@@ -125,8 +126,21 @@ def lookForFightStarted():
     t.sleep(0.25)
 
 
+def aPixelIsRed(lst):
+    for pixel in lst:
+        print(pixel)
+    for pixel in lst:
+        if pixel[0] > 150:
+            return True
+    return False
+
+
 def won(sc):
-    return sc.getpixel(end_pos_1)[0] > 150 or sc.getpixel(end_pos_2)[0] > 150 or sc.getpixel(end_pos_3)[0] > 150
+    pixels = []
+    for i in range(0, 100, 5):
+        pixels.append(sc.getpixel(top_of_embed[0], top_of_embed[1]-i))
+
+    return aPixelIsRed(pixels)
 
 
 def cycle():
@@ -149,6 +163,7 @@ while True:
     startFight()
     t.sleep(2)
     sc = pg.screenshot()
+
     while sc.getpixel(yellow_bar_pos[0]) != yellow_bar or sc.getpixel(yellow_bar_pos[1]) != yellow_bar or sc.getpixel(yellow_bar_pos[2]) != yellow_bar:
         print("no yellow bar")
         t.sleep(3)
