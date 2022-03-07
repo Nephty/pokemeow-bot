@@ -9,4 +9,4 @@
 This repository contains the source code of a Python bot made for the discord bot `Pokemeow` that catches pokemon or levels up your team automatically.
 
 ## How to use
-You must change the coordinates variables in the first lines of the code so that they match the right coordinates on your screen. To see the coordinates of a pixel, open a terminal, type `Python` to open the interpreter and type `import pyautogui` then `pyautogui.mouseInfo()`.
+You must change the coordinates variables in the first lines of the code so that they match the right coordinates on your screen. To see the coordinates of a pixel, open a terminal, type `python` to open the interpreter and type `import pyautogui` then `pyautogui.mouseInfo()`.
