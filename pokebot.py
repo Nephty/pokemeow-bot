@@ -3,6 +3,44 @@ import sys
 import time as t
 import os
 
+# COORDINATES & PATH (only edit the 'else' segment)
+if os.environ['HOSTNAME'] == 'fedora':
+    # don't edit anything here it's useless
+    strip1 = (2954, 1270)
+    strip2 = (2955, 1270)
+    strip3 = (2956, 1270)
+    tagged_strip1 = (2882, 1335)
+    tagged_strip2 = (2883, 1335)
+    pokeball = (2986, 1326)
+    spacing_between_pokeballs = 72
+    path = "/home/Nephty/Python/Projects/pokemeow-bot"
+elif os.environ['HOSTNAME'] == 'nephty-fedora':
+    # don't edit anything here it's useless
+    strip1 = (356, 920)
+    strip2 = (357, 920)
+    strip3 = (358, 920)
+    tagged_strip1 = (291, 920)
+    tagged_strip2 = (292, 920)
+    pokeball = (320, 980)
+    spacing_between_pokeballs = 65
+    path = "/home/Nephty/Python/Projects/pokemeow-bot"
+else:
+    # CHANGE THESE VARIABLES so that they match the coordinates on your screen (x, y)
+    # Read the README.md if you don't know how to get the coordinates of a pixel on your screen
+    strip1 = (0, 0)                 # these are the three coordinates of the blue/orange/purple... strip that stands
+    strip2 = (0, 0)                 # next to a message coming from the bot when you run ;p. These coordinates should be
+    strip3 = (0, 0)                 # looking like : (x, y), (x+1, y), (x+2, y) where x and y are your custom coos.
+    tagged_strip1 = (0, 0)          # these are the two coordinates of the yellow strip that stands next to a message
+    tagged_strip2 = (0, 0)          # in which you are pinged. They should look like (x, y), (x+1, y), as before.
+    pokeball = (0, 0)               # this is the coordinate of the pokeball that shows up below a pokemon you can catch
+    spacing_between_pokeballs = 0   # this is the spacing between the pokeball and the superball (measured in pixels)
+    path = ""                       # this is the path of the directory in which this exact python file is located
+
+
+# [---------------------------------------]
+# [ DO NOT TOUCH ANYTHING AFTER THIS LINE ]
+# [---------------------------------------]
+
 # COLORS
 common = (8, 85, 251)
 uncommon = (19, 181, 231)
@@ -10,26 +48,6 @@ rare = (251, 138, 8)
 superrare = (248, 244, 7)
 legendary = (160, 7, 248)
 tagged = (250, 168, 26)
-
-# POSIIONS
-# edit your coordinates here, you can find them using pyautogui in a console :
-# type 'python' in a console then type 'import pyautogui' and 'pyautogui.mouseInfo()'
-# read the coordinates from the opened window
-
-# this is the vertical strip indicating the rarity of the pokemon
-# it is usually three pixels in width, so enter three different pixel that lay one next to another
-strip1, strip2, strip3 = (356, 920), (357, 920), (358, 920)
-# that is the bright yellow strip that stands on the very left side of a message in which you're tagged
-tagged_strip1, tagged_strip2 = (291, 920), (292, 920)
-# that is the position of the pokeball, where you would click to throw a pokeball (the regular one)
-pokeball = (320, 980)
-# that is the amount of pixels between two balls (how many pixels you have to move right in order to be on
-# the next ball, for example : how many pixels do you have to move right from the pokeball in order to be
-# on the super ball ?)
-spacing_between_pokeballs = 65
-
-# PATH
-path = "/home/Nephty/Python/Scripts"
 
 # OTHER VARS
 sleeptime = 3
@@ -139,26 +157,26 @@ def cycle():
     strip2_color = sc.getpixel(strip2)
     strip3_color = sc.getpixel(strip3)
 
-    pokeball_index = 1
+    pokeball_index = 0
 
     if isCommon(strip1_color, strip2_color, strip3_color):
-        pokeball_index = 1
+        pokeball_index = 0
         caught["common"] += 1
 
     elif isUncommon(strip1_color, strip2_color, strip3_color):
-        pokeball_index = 1
+        pokeball_index = 0
         caught["uncommon"] += 1
 
     elif isRare(strip1_color, strip2_color, strip3_color):
-        pokeball_index = 2
+        pokeball_index = 1
         caught["rare"] += 1
 
     elif isSuperrare(strip1_color, strip2_color, strip3_color):
-        pokeball_index = 3
+        pokeball_index = 2
         caught["super rare"] += 1
 
     elif isLegendary(strip1_color, strip2_color, strip3_color):
-        pokeball_index = 5
+        pokeball_index = 4
         caught["legendary"] += 1
 
     else:
