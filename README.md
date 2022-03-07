@@ -1,5 +1,8 @@
 # pokemeow-bot
 
+## Disclaimer
+This bot is being build for educational purposes only. This is bot is not being used to abuse the Pokemeow bot system, but rather to learn and play around with Python automation. Use this script at your own risk.
+
 ## Content
 * pokebot.py : a bot that catches pokemon continuously and waits for your input when there's a captcha /!\ LINUX VERSION
 * pokefightbot.py : a bot that fights contiuously and stops when there's a catpcha /!\ LINUX VERSION
