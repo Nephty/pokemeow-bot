@@ -9,10 +9,10 @@ if os.environ['HOSTNAME'] == 'fedora':
     strip1 = (2954, 1270)
     strip2 = (2955, 1270)
     strip3 = (2956, 1270)
-    tagged_strip1_upper = (2882, 1335)
-    tagged_strip2_upper = (2883, 1335)
-    tagged_strip1_lower = (0, 0)
-    tagged_strip2_lower = (0, 0)
+    tagged_strip1_upper = (2882, 1285)
+    tagged_strip2_upper = (2883, 1285)
+    tagged_strip1_lower = (2882, 1335)
+    tagged_strip2_lower = (2883, 1335)
     pokeball = (2986, 1326)
     spacing_between_pokeballs = 72
     path = "/home/Nephty/Python/Projects/pokemeow-bot"
@@ -54,6 +54,7 @@ uncommon = (19, 181, 231)
 rare = (251, 138, 8)
 superrare = (248, 244, 7)
 legendary = (160, 7, 248)
+shiny = (255, 153, 204)
 tagged = (250, 168, 26)
 
 # OTHER VARS
@@ -65,7 +66,8 @@ caught = {
     "uncommon": 0,
     "rare": 0,
     "super rare": 0,
-    "legendary": 0
+    "legendary": 0,
+    "shiny": 0
 }
 sc = None
 
@@ -133,6 +135,10 @@ def isLegendary(p1, p2, p3):
     return p1 == legendary or p2 == legendary or p3 == legendary
 
 
+def isShiny(p1, p2, p3):
+    return p1 == shiny or p2 == shiny or p3 == shiny
+
+
 def cycle():
     global total_executions, sc
 
@@ -193,6 +199,10 @@ def cycle():
     elif isLegendary(strip1_color, strip2_color, strip3_color):
         pokeball_index = 4
         caught["legendary"] += 1
+
+    elif isShiny(strip1_color, strip2_color, strip3_color):
+        pokeball_index = 2
+        caught["shiny"] += 1
 
     else:
         os.system("clear")
