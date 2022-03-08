@@ -6,25 +6,29 @@ import time as t
 if os.environ['HOSTNAME'] == 'fedora':
     # don't edit anything here it's useless
     main_pokemon_attack = "fire punch"
-    yellow_bar_pos = [(2954, 1270), (2955, 1270), (2956, 1270)]
+    secondary_pokemon_attack = "brutql szing"
+    yellow_bar_pos = [(2954, 1200), (2955, 1200), (2956, 1200)]
     end_pos_1 = (3147, 746)
     end_pos_2 = (3147, 766)
     end_pos_3 = (3147, 786)
-    tagged_strip1 = (2882, 1335)
-    tagged_strip2 = (2883, 1335)
+    tagged_strip1_upper = (2882, 1335)
+    tagged_strip2_upper = (2883, 1335)
+    tagged_strip1_lower = (0, 0)
+    tagged_strip2_lower = (0, 0)
     background_pos = (3305, 1210)
     captcha_pos = (3777, 1233)
-    secondary_pokemon_attack = "brutql szing"
 elif os.environ['HOSTNAME'] == 'nephty-fedora':
     # don't edit anything here it's useless
     main_pokemon_attack = "fire punch"
     secondary_pokemon_attack = "brutql szing"
-    yellow_bar_pos = [(356, 980), (357, 980), (358, 980)]
+    yellow_bar_pos = [(356, 935), (357, 935), (358, 935)]
     end_pos_1 = (529, 478)
     end_pos_2 = (529, 458)
     end_pos_3 = (529, 438)
-    tagged_strip1 = (291, 920)
-    tagged_strip2 = (292, 920)
+    tagged_strip1_upper = (291, 920)
+    tagged_strip2_upper = (292, 920)
+    tagged_strip1_lower = (291, 970)
+    tagged_strip2_lower = (292, 970)
     background_pos = (652, 933)
     captcha_pos = (1045, 912)
 else:
@@ -124,6 +128,14 @@ def lookForFightStarted():
     t.sleep(0.25)
 
 
+def gotTaggedUpper(sc):
+    return sc.getpixel(tagged_strip1_upper) == tagged or sc.getpixel(tagged_strip1_upper) == tagged
+
+
+def gotTaggedLower(sc):
+    return sc.getpixel(tagged_strip1_lower) == tagged or sc.getpixel(tagged_strip1_lower) == tagged
+
+
 def won(sc):
     return sc.getpixel(end_pos_1)[0] > 150 or sc.getpixel(end_pos_2)[0] > 150 or sc.getpixel(end_pos_3)[0] > 150
 
@@ -131,6 +143,7 @@ def won(sc):
 def cycle():
     global fighting
     lookForYellowBand()
+    t.sleep(0.5)
     sc = pg.screenshot()
     if won(sc):
         fighting = False
@@ -146,7 +159,7 @@ focusLeftWindow()
 
 while True:
     startFight()
-    t.sleep(2)
+    t.sleep(3)
     sc = pg.screenshot()
     while sc.getpixel(yellow_bar_pos[0]) != yellow_bar or sc.getpixel(yellow_bar_pos[1]) != yellow_bar or sc.getpixel(yellow_bar_pos[2]) != yellow_bar:
         print("no yellow bar")
@@ -154,7 +167,7 @@ while True:
         startFight()
         t.sleep(1)
         sc = pg.screenshot()
-        if sc.getpixel(captcha_pos) == captcha:
+        if gotTaggedUpper(sc) and gotTaggedLower(sc):
             print("captcha !")
             exit()
     t.sleep(0.25)

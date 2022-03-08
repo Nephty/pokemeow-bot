@@ -9,8 +9,10 @@ if os.environ['HOSTNAME'] == 'fedora':
     strip1 = (2954, 1270)
     strip2 = (2955, 1270)
     strip3 = (2956, 1270)
-    tagged_strip1 = (2882, 1335)
-    tagged_strip2 = (2883, 1335)
+    tagged_strip1_upper = (2882, 1335)
+    tagged_strip2_upper = (2883, 1335)
+    tagged_strip1_lower = (0, 0)
+    tagged_strip2_lower = (0, 0)
     pokeball = (2986, 1326)
     spacing_between_pokeballs = 72
     path = "/home/Nephty/Python/Projects/pokemeow-bot"
@@ -19,9 +21,11 @@ elif os.environ['HOSTNAME'] == 'nephty-fedora':
     strip1 = (356, 920)
     strip2 = (357, 920)
     strip3 = (358, 920)
-    tagged_strip1 = (291, 920)
-    tagged_strip2 = (292, 920)
-    pokeball = (320, 980)
+    tagged_strip1_upper = (291, 920)
+    tagged_strip2_upper = (292, 920)
+    tagged_strip1_lower = (291, 970)
+    tagged_strip2_lower = (292, 970)
+    pokeball = (385, 980)
     spacing_between_pokeballs = 65
     path = "/home/Nephty/Python/Projects/pokemeow-bot"
 else:
@@ -30,8 +34,11 @@ else:
     strip1 = (0, 0)                 # these are the three coordinates of the blue/orange/purple... strip that stands
     strip2 = (0, 0)                 # next to a message coming from the bot when you run ;p. These coordinates should be
     strip3 = (0, 0)                 # looking like : (x, y), (x+1, y), (x+2, y) where x and y are your custom coos.
-    tagged_strip1 = (0, 0)          # these are the two coordinates of the yellow strip that stands next to a message
-    tagged_strip2 = (0, 0)          # in which you are pinged. They should look like (x, y), (x+1, y), as before.
+    tagged_strip1_upper = (0, 0)    # these are the two coordinates of the yellow strip that stands next to a message
+    tagged_strip2_upper = (0, 0)    # in which you are pinged. They should look like (x, y), (x+1, y), as before.
+                                    # they should be the upper part of the strip, when the bot tags you for a catpcha
+    tagged_strip1_lower = (tagged_strip1_upper[0], tagged_strip1_upper[1]+50)
+    tagged_strip2_lower = (tagged_strip2_upper[0], tagged_strip2_upper[1]+50)
     pokeball = (0, 0)               # this is the coordinate of the pokeball that shows up below a pokemon you can catch
     spacing_between_pokeballs = 0   # this is the spacing between the pokeball and the superball (measured in pixels)
     path = ""                       # this is the path of the directory in which this exact python file is located
@@ -85,8 +92,12 @@ def summonPokemon():
     pg.press("enter")
 
 
-def gotTagged(sc):
-    return sc.getpixel(tagged_strip1) == tagged or sc.getpixel(tagged_strip1) == tagged
+def gotTaggedUpper(sc):
+    return sc.getpixel(tagged_strip1_upper) == tagged or sc.getpixel(tagged_strip1_upper) == tagged
+
+
+def gotTaggedLower(sc):
+    return sc.getpixel(tagged_strip1_lower) == tagged or sc.getpixel(tagged_strip1_lower) == tagged
 
 
 def printSession():
@@ -132,11 +143,11 @@ def cycle():
     summonPokemon()
 
     # IDENTIFY CAPTCHA
-    t.sleep(1)
+    t.sleep(2)
 
     sc = pg.screenshot()
 
-    if gotTagged(sc):
+    if gotTaggedUpper(sc) and gotTaggedLower(sc):
         os.system("clear")
         printSession()
         print(f"Captcha !")
@@ -147,9 +158,13 @@ def cycle():
         pg.press("enter")
         t.sleep(1)
         summonPokemon()
-        t.sleep(1)
+        t.sleep(1.5)
         sc = pg.screenshot()
-        # exit()
+    elif gotTaggedLower(sc):
+        t.sleep(3)
+        summonPokemon()
+        t.sleep(1.5)
+        sc = pg.screenshot()
 
     # IDENTIFY RARITY
 
@@ -191,17 +206,17 @@ def cycle():
     pg.click()
 
     # BUY POKEBALLS
-    t.sleep(2)
-    if pokeball_index == 1:
+    t.sleep(1.5)
+    if pokeball_index == 0:
         pg.write("ms buy 1 1")
         pg.press("enter")
-    elif pokeball_index == 2:
+    elif pokeball_index == 1:
         pg.write("ms buy 2 1")
         pg.press("enter")
-    elif pokeball_index == 3:
+    elif pokeball_index == 2:
         pg.write("ms buy 3 1")
         pg.press("enter")
-    elif pokeball_index == 5:
+    elif pokeball_index == 4:
         pg.write("ms buy 4 1")
 
     # RELEASE DUPLICATES
@@ -231,7 +246,7 @@ def run(st=sleeptime, times=-1):
 
 try:
     os.system("clear")
-    print(f"running, interval : 11 seconds")
+    print(f"running, interval : 12 seconds")
     if len(sys.argv) == 1:
         t.sleep(1)
         focusLeftWindow()
